@@ -14,4 +14,43 @@ env:
   WEBAPP: petstore-ak-eastus   # Replace with your JBoss site's name
   GROUP: oss-hack  # Replace with the resource group containing your JBoss EAP site
   SCRIPTS_DIR: 3A-postgresql  # Replace this with 3B-mysql or 3C-sql if you used MySQL or SQL
-  
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Java 8
+      uses: actions/setup-java@v1
+      with:
+        java-version: '8'
+
+    - name: Build with Maven
+      run: mvn -B clean package -Dmaven.test.skip=true
+      run: mvn package -Dmaven.test.skip=true -Ddb=postgresql
+
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.PETSTOREAKEASTUS }}
+
+    - name: zip the database artifacts
+      run: zip -r db_files.zip .scripts/$SCRIPTS_DIR
+    
+    - name: Deploy data source artifacts
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.30.0
+        inlineScript: |
+          az extension add --name webapp
+          
+          az webapp deploy --resource-group $GROUP --name $WEBAPP \
+            --src-path db_files.zip --target-path "/home/site/deployments/tools" --restart false --type zip 
+      
+    - name: Deploy WAR file
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.WEBAPP }}
+        package: target/applicationPetstore.war

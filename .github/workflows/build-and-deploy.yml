@@ -29,6 +29,8 @@ jobs:
 
     - name: Build with Maven
       run: mvn -B clean package -Dmaven.test.skip=true
+      
+    - name: Build PostgreSQL Package with Maven
       run: mvn package -Dmaven.test.skip=true -Ddb=postgresql
 
     - name: Azure Login

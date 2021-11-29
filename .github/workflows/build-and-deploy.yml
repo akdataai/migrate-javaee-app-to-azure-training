@@ -29,7 +29,8 @@ jobs:
         java-version: '8'
 
     - name: Build with Maven
-      run: mvn -B clean package -Dmaven.test.skip=true 
+      run: mvn -B clean package -Dmaven.test.skip=true
+      run: mvn package -Dmaven.test.skip=true -Ddb=postgresql
 
     - name: Azure Login
       uses: azure/login@v1

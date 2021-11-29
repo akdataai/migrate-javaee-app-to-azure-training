@@ -30,8 +30,10 @@ jobs:
 
     - name: Build with Maven
       run: mvn -B clean package -Dmaven.test.skip=true
+      
+    - name: Build with Maven for PostgreSQL
       run: mvn package -Dmaven.test.skip=true -Ddb=postgresql
-
+      
     - name: Azure Login
       uses: azure/login@v1
       with:

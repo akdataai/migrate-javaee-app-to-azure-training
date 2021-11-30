@@ -33,7 +33,7 @@ jobs:
     - name: Azure Login
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CLI_CREDENTIALS }}
+        creds: ${{ secrets.PETSTOREAKEASTUS }}
 
     - name: zip the database artifacts
       run: zip -r db_files.zip .scripts/$SCRIPTS_DIR

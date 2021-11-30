@@ -36,7 +36,7 @@ jobs:
         creds: ${{ secrets.PETSTOREAKEASTUS }}
 
     - name: zip the database artifacts
-      run: zip db_files.zip .scripts/$SCRIPTS_DIR
+      run: zip -r db_files.zip .scripts/$SCRIPTS_DIR/
     
     - name: List directory
       run: |

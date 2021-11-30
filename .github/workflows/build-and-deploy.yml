@@ -50,7 +50,7 @@ jobs:
           az extension add --name webapp
           
           az webapp deploy --resource-group $GROUP --name $WEBAPP \
-            --src-path db_files.zip --target-path "/home/site/scripts" --restart true --type zip 
+            --src-path db_files.zip --restart true --type zip 
          
     - name: Deploy WAR file
       uses: azure/webapps-deploy@v2

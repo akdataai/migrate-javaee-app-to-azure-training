@@ -13,7 +13,7 @@ on:
 env:
   WEBAPP: petstore-ak-eastus   # Replace with your JBoss site's name
   GROUP: oss-hack  # Replace with the resource group containing your JBoss EAP site
-  SCRIPTS_DIR: 3A-postgresql  # Replace this with 3B-mysql or 3C-sql if you used MySQL or SQL
+  SCRIPTS_DIR: .scripts/3A-postgresql  # Replace this with 3B-mysql or 3C-sql if you used MySQL or SQL
 
 jobs:
   build-and-deploy:

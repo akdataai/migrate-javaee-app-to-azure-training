@@ -38,6 +38,10 @@ jobs:
     - name: zip the database artifacts
       run: zip -r db_files.zip .scripts/$SCRIPTS_DIR
     
+     - name: List directory
+      run: |
+         ls .
+    
     - name: Deploy data source artifacts
       uses: azure/CLI@v1
       with:
@@ -47,12 +51,13 @@ jobs:
           
           az webapp deploy --resource-group $GROUP --name $WEBAPP \
             --src-path db_files.zip --target-path "/home/site/deployments/tools" --restart false --type zip 
-      
+     
+     - name: List directory
+      run: |
+         ls .
+         
     - name: Deploy WAR file
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.WEBAPP }}
         package: target/applicationPetstore.war
-
-    - name: Deploy with Maven
-      run: mvn azure-webapp:deploy

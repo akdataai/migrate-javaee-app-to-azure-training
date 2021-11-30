@@ -48,9 +48,8 @@ jobs:
         azcliversion: 2.30.0
         inlineScript: |
           az extension add --name webapp
-          
-          az webapp deploy --resource-group $GROUP --name $WEBAPP \
-            --src-path ./ --restart true --type zip 
+                 
+          az webapp deployment source config-zip --name $WEBAPP --resource-group $GROUP --src db_files.zip 
          
     - name: Deploy WAR file
       uses: azure/webapps-deploy@v2

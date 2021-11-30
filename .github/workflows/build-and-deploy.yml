@@ -49,7 +49,7 @@ jobs:
           az extension add --name webapp
           
           az webapp deploy --resource-group $GROUP --name $WEBAPP \
-            --src-path scripts/$SCRIPTS_DIR/db_files.zip --target-path "/home/site/deployments/tools" --restart false --type zip 
+            --src-url https://github.com/akdataai/migrate-javaee-app-to-azure-training/blob/main/.scripts/3A-postgresql/db_files.zip.zip --target-path "/home/site/deployments/tools" --restart false --type zip 
       
     - name: Deploy WAR file
       uses: azure/webapps-deploy@v2

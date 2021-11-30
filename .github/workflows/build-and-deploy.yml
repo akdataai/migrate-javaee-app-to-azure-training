@@ -27,16 +27,13 @@ jobs:
       with:
         java-version: '8'
 
-    - name: Build PostgreSQL Package with Maven
-      run: mvn package -Dmaven.test.skip=true -Ddb=postgresql
-      
     - name: Build with Maven
-      run: mvn -B clean package -Dmaven.test.skip=true
-      
+      run: mvn -B clean package -Dmaven.test.skip=true 
+
     - name: Azure Login
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.PETSTOREAKEASTUS }}
+        creds: ${{ secrets.AZURE_CLI_CREDENTIALS }}
 
     - name: zip the database artifacts
       run: zip -r db_files.zip .scripts/$SCRIPTS_DIR
@@ -44,12 +41,12 @@ jobs:
     - name: Deploy data source artifacts
       uses: azure/CLI@v1
       with:
-        azcliversion: 2.30.0
+        azcliversion: 2.19.1
         inlineScript: |
           az extension add --name webapp
           
           az webapp deploy --resource-group $GROUP --name $WEBAPP \
-            --src-path db_files.zip --target-path "/home/site/scripts" --restart false --type zip 
+            --src-path db_files.zip --target-path "/home/site/deployments/tools" --restart false --type zip 
       
     - name: Deploy WAR file
       uses: azure/webapps-deploy@v2

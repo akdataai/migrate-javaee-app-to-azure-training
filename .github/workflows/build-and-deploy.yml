@@ -27,12 +27,12 @@ jobs:
       with:
         java-version: '8'
 
+    - name: Build PostgreSQL Package with Maven
+      run: mvn package -Dmaven.test.skip=true -Ddb=postgresql
+      
     - name: Build with Maven
       run: mvn -B clean package -Dmaven.test.skip=true
       
-    - name: Build PostgreSQL Package with Maven
-      run: mvn package -Dmaven.test.skip=true -Ddb=postgresql
-
     - name: Azure Login
       uses: azure/login@v1
       with:
@@ -49,7 +49,7 @@ jobs:
           az extension add --name webapp
           
           az webapp deploy --resource-group $GROUP --name $WEBAPP \
-            --src-path ./db_files.zip --target-path "/home/site/deployments/tools" --restart false --type zip 
+            --src-path scripts/$SCRIPTS_DIR/db_files.zip --target-path "/home/site/deployments/tools" --restart false --type zip 
       
     - name: Deploy WAR file
       uses: azure/webapps-deploy@v2
